@@ -1,47 +1,52 @@
-document.getElementById('kliknij').addEventListener('click', () => {
-  alert('Działa! 🎉');
-  createFirework();
-});
-
-const canvas = document.getElementById('fajerwerki');
-const ctx = canvas.getContext('2d');
-canvas.width = window.innerWidth;
-canvas.height = window.innerHeight;
-
-function createFirework() {
-  let x = Math.random() * canvas.width;
-  let y = Math.random() * canvas.height/2;
-  let particles = [];
-  for (let i=0; i<30; i++) {
-    particles.push({
-      x: x,
-      y: y,
-      dx: (Math.random()-0.5)*6,
-      dy: (Math.random()-0.5)*6,
-      color: `hsl(${Math.random()*360}, 100%, 50%)`,
-      life: 50
-    });
-  }
-
-  let interval = setInterval(() => {
-    ctx.clearRect(0, 0, canvas.width, canvas.height);
-    particles.forEach(p => {
-      ctx.beginPath();
-      ctx.arc(p.x, p.y, 3, 0, Math.PI*2);
-      ctx.fillStyle = p.color;
-      ctx.fill();
-      p.x += p.dx;
-      p.y += p.dy;
-      p.life--;
-    });
-    particles = particles.filter(p => p.life > 0);
-    if (particles.length === 0) clearInterval(interval);
-  }, 30);
+body {
+  margin: 0;
+  font-family: 'Courier New', monospace;
+  background: linear-gradient(45deg, #1e1e2f, #2a2a4d);
+  color: #fff;
+  overflow: hidden;
 }
 
-window.addEventListener('resize', () => {
-  canvas.width = window.innerWidth;
-  canvas.height = window.innerHeight;
-});document.getElementById('kliknij').addEventListener('click', () => {
-  alert('Działa! 🎉');
-});
+.container {
+  text-align: center;
+  padding-top: 100px;
+  animation: fadeIn 2s ease;
+}
+
+h1 {
+  font-size: 3em;
+  color: #00ffff;
+  text-shadow: 0 0 10px #00ffff, 0 0 20px #ff00ff;
+}
+
+p {
+  font-size: 1.2em;
+}
+
+button {
+  padding: 15px 30px;
+  font-size: 18px;
+  background: #ff00ff;
+  border: none;
+  border-radius: 8px;
+  cursor: pointer;
+  color: #fff;
+  box-shadow: 0 0 10px #ff00ff;
+  transition: 0.3s;
+}
+
+button:hover {
+  box-shadow: 0 0 20px #00ffff;
+  transform: scale(1.1);
+}
+
+@keyframes fadeIn {
+  from { opacity: 0; }
+  to { opacity: 1; }
+}
+
+canvas {
+  position: fixed;
+  top: 0;
+  left: 0;
+  z-index: -1;
+}
